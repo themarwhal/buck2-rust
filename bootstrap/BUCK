@@ -1,0 +1,22 @@
+constraint_setting(
+    name = "bootstrap",
+    visibility = ["PUBLIC"],
+)
+
+constraint_value(
+    name = "stage0",
+    constraint_setting = ":bootstrap",
+    visibility = ["PUBLIC"],
+)
+
+constraint_value(
+    name = "stage1",
+    constraint_setting = ":bootstrap",
+    visibility = ["PUBLIC"],
+)
+
+constraint_value(
+    name = "stage2",
+    constraint_setting = ":bootstrap",
+    visibility = ["PUBLIC"],
+)

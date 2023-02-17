@@ -1,0 +1,7 @@
+buildscript = []
+features = ["runtime-rng"]
+
+# fbcode rustc in dev channel
+[platform_fixup.'cfg(target_env = "fbcode")']
+features = ["specialize"]
+buildscript = []

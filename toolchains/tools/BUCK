@@ -1,0 +1,31 @@
+sh_binary(
+    name = "rustc_wrapper",
+    main = "rustc_wrapper.sh",
+    visibility = ["PUBLIC"],
+)
+
+python_bootstrap_binary(
+    name = "setup_bootstrap_toolchain",
+    main = "setup_bootstrap_toolchain.py",
+    visibility = ["PUBLIC"],
+)
+
+python_bootstrap_binary(
+    name = "assemble_rustc_and_stdlibs",
+    main = "assemble_rustc_and_stdlibs.py",
+    visibility = ["PUBLIC"],
+)
+
+python_bootstrap_binary(
+    name = "assemble_rustc",
+    main = "assemble_rustc.py",
+    visibility = ["PUBLIC"],
+)
+
+genrule(
+    name = "empty_sysroot",
+    out = "empty_sysroot",
+    bash = "mkdir $OUT",
+    cmd_exe = "mkdir %OUT%",
+    visibility = ["PUBLIC"],
+)

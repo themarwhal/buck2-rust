@@ -1,0 +1,60 @@
+extra_srcs = [
+    "primitive_docs/*.md",
+    "../backtrace/src/**/*.rs",
+    "../core/src/ffi/*.md",
+    "../core/src/error.md",
+    "../core/src/macros/panic.md",
+    "../portable-simd/crates/core_simd/src/core_simd_docs.md",
+    "../portable-simd/crates/std_float/**/*.rs",
+    "../stdarch/crates/core_arch/src/core_arch_docs.md",
+]
+src_referenced_dirs = [
+    "../backtrace",
+    "../core",
+    "../portable-simd/crates/core_simd",
+    "../portable-simd/crates/std_float",
+    "../stdarch/crates/core_arch",
+]
+cfgs = [
+    'feature="addr2line"',
+    'feature="backtrace"',
+    'feature="compiler-builtins-c"',
+    'feature="gimli-symbolize"',
+    'feature="miniz_oxide"',
+    'feature="object"',
+    'feature="panic_unwind"',
+    'feature="std_detect_dlsym_getauxval"',
+    'feature="std_detect_file_io"',
+    'backtrace_in_libstd'
+]
+extra_deps = [
+    ":miniz_oxide",
+    ":addr2line",
+    ":object",
+    ":panic_unwind",
+]
+filter_deps = [
+    ":std-0.0.0",
+    ":core-0.0.0",
+    ":alloc-0.0.0",
+    "alloc",
+    "core",
+]
+
+buildscript = []
+
+[platform_fixup.'cfg(target_arch = "x86_64")']
+buildscript = []
+env = { "STD_ENV_ARCH" = "x86_64" }
+
+[platform_fixup.'cfg(target_arch = "x86")']
+buildscript = []
+env = { "STD_ENV_ARCH" = "x86" }
+
+[platform_fixup.'cfg(target_arch = "arm")']
+buildscript = []
+env = { "STD_ENV_ARCH" = "arm" }
+
+[platform_fixup.'cfg(target_arch = "aarch64")']
+buildscript = []
+env = { "STD_ENV_ARCH" = "aarch64" }

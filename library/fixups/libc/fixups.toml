@@ -1,0 +1,23 @@
+extra_deps = [":rustc-std-workspace-core"]
+cfgs = [
+    'feature="align"',
+    'feature="rustc-dep-of-std"',
+    'feature="rustc-std-workspace-core"',
+    'freebsd11',
+    'libc_priv_mod_use',
+    'libc_union',
+    'libc_const_size_of',
+    'libc_align',
+    'libc_int128',
+    'libc_core_cvoid',
+    'libc_packedN',
+    'libc_cfg_target_vendor',
+    'libc_non_exhaustive',
+    'libc_ptr_addr_of',
+    'libc_underscore_const_names',
+    'libc_thread_local',
+    'libc_const_extern_fn'
+]
+
+[[buildscript]]
+[buildscript.rustc_flags]

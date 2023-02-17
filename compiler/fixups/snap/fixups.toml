@@ -1,0 +1,7 @@
+[env]
+OUT_DIR = "generated"
+
+[[buildscript]]
+[buildscript.gen_srcs.mapped]
+"tag.rs" = "generated/tag.rs"
+"crc32_table.rs" = "generated/crc32_table.rs"

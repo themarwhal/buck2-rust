@@ -1,0 +1,3 @@
+# build.rs only does something special for windows,
+# and we're only building stacker for linux/mac in Cargo.toml
+buildscript = []

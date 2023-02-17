@@ -1,0 +1,15 @@
+[repositories]
+root = .
+prelude = prelude
+toolchains = toolchains
+bootstrap = bootstrap
+none = none
+
+[repository_aliases]
+ovr_config = prelude
+buck = none
+fbcode = none
+fbsource = none
+
+[parser]
+target_platform_detector_spec = target:root//...->bootstrap//platform:stage0

@@ -1,0 +1,126 @@
+load("@prelude//toolchains:rust.bzl", "system_rust_toolchain")
+load("@prelude//toolchains:cxx.bzl", "system_cxx_toolchain")
+load("@prelude//toolchains:python.bzl", "system_python_bootstrap_toolchain", "system_python_toolchain")
+load(":toolchain_alias.bzl", "toolchain_alias")
+load(":toolchain.bzl", "bootstrap_compiler", "rust_toolchain")
+load(":sysroot.bzl", "add_platformed_stdlib", "compiler_and_stdlibs", "compiler_artifacts")
+
+### Toolchains for Cxx/Python/etc. ###
+system_cxx_toolchain(
+    name = "cxx",
+    visibility = ["PUBLIC"],
+)
+
+system_python_toolchain(
+    name = "python",
+    visibility = ["PUBLIC"],
+)
+
+system_python_bootstrap_toolchain(
+    name = "python_bootstrap",
+    visibility = ["PUBLIC"],
+)
+### Toolchains for Cxx/Python/etc. ###
+
+### Rust toolchain ###
+toolchain_alias(
+    name = "rust",
+    actual = select({
+        "DEFAULT": ":stage0_rust_toolchain",
+        "bootstrap//:stage0": ":stage0_rust_toolchain",
+        "bootstrap//:stage1": ":stage1_rust_toolchain",
+        "bootstrap//:stage2": ":stage2_rust_toolchain",
+    }),
+    visibility = ["PUBLIC"],
+)
+
+rust_toolchain(
+    name = "stage0_rust_toolchain",
+    compiler = ":bootstrap_compiler_for_toolchain",
+    default_edition = "2021",
+)
+
+rust_toolchain(
+    name = "stage1_rust_toolchain",
+    compiler = ":stage0_compiler_for_toolchain",
+    default_edition = "2021",
+)
+
+rust_toolchain(
+    name = "stage2_rust_toolchain",
+    compiler = ":stage1_compiler_for_toolchain",
+    default_edition = "2021",
+)
+
+command_alias(
+    name = "stage0_compiler_for_toolchain",
+    exe = "//tools:rustc_wrapper",
+    args = ["$(location :stage0_compiler_artifacts)"],
+)
+
+command_alias(
+    name = "stage1_compiler_for_toolchain",
+    exe = "//tools:rustc_wrapper",
+    args = ["$(location :stage1)"],
+)
+
+# Bootstrap compiler used to build stage0 std, stage0 compiler artifacts
+bootstrap_compiler(
+    name = "bootstrap_compiler",
+    rustc_tar = "downloads/bootstrap_rustc.tar.xz",
+    stdlib_tar = "downloads/bootstrap_stdlib.tar.xz",
+    visibility = ["PUBLIC"],
+)
+
+command_alias(
+    name = "bootstrap_compiler_for_toolchain",
+    exe = "//tools:rustc_wrapper",
+    args = ["$(location :bootstrap_compiler)"],
+)
+### Rust toolchain
+
+### Artifacts
+# STAGE 0
+# Generate configured_alias-ed stdlibs for stage0, stage0 rustc depends on these
+configured_alias(
+    name = "stage0_rustc",
+    actual = "root//compiler:rustc",
+    platform = "bootstrap//platform:stage0",
+)
+
+compiler_artifacts(
+    name = "stage0_compiler_artifacts",
+    rustc = ":stage0_rustc",
+    visibility = ["PUBLIC"],
+)
+
+# STAGE 1
+# At this point, we should have a working compiler
+compiler_and_stdlibs(
+    name = "stage1",
+    rustc_dir = ":stage0_compiler_artifacts",
+    stdlibs = ["root//library:stage1_std", "root//library:stage1_proc_macro"],
+    visibility = ["PUBLIC"],
+)
+
+configured_alias(
+    name = "stage1_rustc",
+    actual = "root//compiler:rustc",
+    platform = "bootstrap//platform:stage1",
+    visibility = ["PUBLIC"],
+)
+
+# STAGE 2
+compiler_artifacts(
+    name = "stage1_compiler_artifacts",
+    rustc = ":stage1_rustc",
+    visibility = ["PUBLIC"],
+)
+
+compiler_and_stdlibs(
+    name = "stage2",
+    rustc_dir = ":stage1_compiler_artifacts",
+    stdlibs = ["root//library:stage2_std", "root//library:stage2_proc_macro"],
+    visibility = ["PUBLIC"],
+)
+### Artifacts

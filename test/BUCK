@@ -1,0 +1,16 @@
+rust_binary(
+    name = "hello_world",
+    srcs = ["hello_world.rs"],
+    rustc_flags = [
+        # TODO: Fix these
+        "-Cdefault-linker-libraries=y",
+        "-Clink-args=-ldl",
+        "-Clink-args=-lpthread",
+    ],
+)
+
+configured_alias(
+    name = "hello_world_on_stage2",
+    actual = ":hello_world",
+    platform = "bootstrap//platform:stage2",
+)

@@ -1,0 +1,55 @@
+[package]
+name = "rustc-stdlib"
+version = "0.0.0"
+publish = false
+edition = "2018"
+
+[[bin]]
+name = "top"
+path = "top/empty.rs"
+
+[dependencies]
+# Main targets exposed in prelude
+std = { path = "src/std" }
+core = { path = "src/core" }
+
+# noprelude normally, prelude in proc_macros
+proc_macro = { path = "src/proc_macro" }
+
+# noprelude if test, excluded otherwise
+#test = { path = "src/test", features = ["std_detect_file_io", "std_detect_dlsym_getauxval"], default-features = false } # default-features minus panic_unwind
+
+# noprelude
+alloc = { path = "src/alloc" }
+panic_abort = { path = "src/panic_abort" }
+panic_unwind = { path = "src/panic_unwind" }
+compiler_builtins = "*" # version chosen by other deps
+
+std_detect = { path = "src/stdarch/crates/std_detect" }
+
+# These can all be pulled in as transitive dependencies but do it explicitly for now
+libc = { version = "0.2" }
+unwind = { path = "src/unwind" }
+cfg-if = { version = "1.0", features = ['rustc-dep-of-std'] }
+adler = { version = "1.0", default-features = false }
+hashbrown = { version = "0.12", default-features = false, features = ['rustc-dep-of-std'] }
+
+# Dependencies of the `backtrace` crate
+addr2line = { version = "0.17.0", optional = false, default-features = false, features = ['alloc', 'compiler_builtins', 'core', 'rustc-dep-of-std'] }
+rustc-demangle = { version = "0.1.21", default-features = false, features = ['compiler_builtins', 'core', 'rustc-dep-of-std'] }
+miniz_oxide = { version = "0.5.0", default-features = false, features = ['alloc', 'compiler_builtins', 'core', 'rustc-dep-of-std'] }
+object = { version = "0.29.0", default-features = false, features = ['read_core', 'elf', 'macho', 'pe', 'unaligned', 'archive']}
+
+# Pseudo-dependencies that Rust uses to be able to depend on third-party crates
+# Need to be included as explicit deps here for Reindeer to recognize the patch
+# directive below.
+rustc-std-workspace-core = "1.0.0"
+rustc-std-workspace-alloc = "1.0.0"
+rustc-std-workspace-std = "1.0.0"
+
+[patch.crates-io]
+# Taken from https://github.com/rust-lang/rust/blob/master/Cargo.toml
+# Reason documented in https://github.com/rust-lang/rust/blob/master/library/rustc-std-workspace-core/README.md
+rustc-std-workspace-core = { path = "src/rustc-std-workspace-core" }
+rustc-std-workspace-alloc = { path = "src/rustc-std-workspace-alloc" }
+rustc-std-workspace-std = { path = "src/rustc-std-workspace-std" }

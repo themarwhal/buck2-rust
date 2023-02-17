@@ -1,0 +1,5 @@
+# @MARIE, just guessing here
+cargo_env = true
+
+[env]
+CFG_RELEASE=""

@@ -1,0 +1,13 @@
+# This is pulled in with import_rustc.sh
+prebuilt_cxx_library(
+    name = "lib",
+    soname = 'libLLVM-15-rust-1.67.1-stable.so',
+    shared_lib = "lib/libLLVM-15-rust-1.67.1-stable.so",
+    exported_linker_flags = [
+        "-lLLVM-15-rust-1.67.1-stable",
+        # TODO: fix this
+        "-Lcompiler/ci-llvm/lib"
+    ],
+    header_dirs = ["include"],
+    visibility = ["PUBLIC"],
+)

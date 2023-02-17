@@ -1,0 +1,12 @@
+cfgs = [
+    'feature="compiler_builtins"',
+    'feature="core"',
+    'feature="rustc-dep-of-std"',
+    'memchr_runtime_simd',
+    'memchr_runtime_sse2',
+    'memchr_runtime_sse42',
+    'memchr_runtime_avx'
+]
+
+[[buildscript]]
+[buildscript.rustc_flags]

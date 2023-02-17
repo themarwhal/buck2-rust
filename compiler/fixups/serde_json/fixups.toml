@@ -1,0 +1,5 @@
+buildscript = []
+cfgs = ["limb_width_64"]
+
+# Required to prevent multiple test failures. The features are introduced by rust-analyzer.
+omit_features = ["preserve_order", "indexmap"]

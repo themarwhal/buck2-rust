@@ -1,0 +1,16 @@
+[package]
+name = "rustc-compiler"
+version = "0.0.0"
+publish = false
+edition = "2018"
+
+[[bin]]
+name = "top"
+path = "top/empty.rs"
+
+[dependencies]
+# Rustc is defined in compiler_rule_defs.bzl
+rustc_codegen_llvm = { path = "src/rustc_codegen_llvm" }
+rustc_codegen_ssa = { path = "src/rustc_codegen_ssa" }
+rustc_driver = { path = "src/rustc_driver" }
+rustc_smir = { path = "src/rustc_smir" }

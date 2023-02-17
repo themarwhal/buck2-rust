@@ -1,0 +1,10 @@
+rustc_flags = ["--cfg", 'llvm_component="x86"'] #TODO: This should be platform dependent
+extra_deps = [":cc-1.0.79"]
+
+[[buildscript]]
+[buildscript.cxx_library]
+name = "llvm_wrapper"
+srcs = ["llvm-wrapper/*.cpp", "llvm-wrapper/*.h"]
+deps = ["root//compiler/ci-llvm:lib", ":cc-1.0.79"]
+# This is important as the llvm .so file we use is compiled with -fno-rtti (I think)
+compiler_flags = ["-fno-rtti"]

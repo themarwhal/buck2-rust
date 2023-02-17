@@ -1,0 +1,3 @@
+features = [
+    "panic_immediate_abort",
+]

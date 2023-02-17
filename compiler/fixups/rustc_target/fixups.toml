@@ -1,0 +1,2 @@
+# Not sure why these are missing
+extra_srcs = ["src/spec/*"]
