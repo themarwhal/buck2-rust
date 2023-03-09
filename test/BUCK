@@ -10,7 +10,7 @@ rust_binary(
 )
 
 configured_alias(
-    name = "hello_world_on_stage2",
+    name = "hello_world_with_bootstrapped_compiler",
     actual = ":hello_world",
     platform = "bootstrap//platform:stage2",
 )

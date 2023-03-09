@@ -5,3 +5,8 @@ compiler/.cargo
 compiler/ci-llvm/lib
 compiler/ci-llvm/include
 toolchains/downloads
+
+
+# Added by cargo
+
+/target

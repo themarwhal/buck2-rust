@@ -2,7 +2,6 @@
 # (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
 
 set -euo pipefail
-set -x
 
 ### CONSTS
 VERSION=1.67.1
@@ -13,6 +12,21 @@ BOOTSTRAP_STDLIBS_URL="https://static.rust-lang.org/dist/2023-01-10/rust-std-1.6
 RUST_DEV_NAME="rust-dev-1.67.1-x86_64-unknown-linux-gnu"
 LLVM_ARTIFACTS_URL="https://ci-artifacts.rust-lang.org/rustc-builds/d5a82bbd26e1ad8b7401f6a718a9c57c96905483/$RUST_DEV_NAME.tar.xz"
 ### END OF CONSTS
+
+has_param() {
+    local term="$1"
+    shift
+    for arg; do
+        if [[ $arg == "$term" ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+if has_param '--download-source' "$@"; then
+    DOWNLOAD_SOURCE=1
+fi
 
 THIS_DIR=$(cd -P -- "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)
 SCRATCH_DIR=$(mktemp -d -t import_rust_std.XXX)
@@ -42,6 +56,12 @@ wget "$LLVM_ARTIFACTS_URL"
 tar -xf "$RUST_DEV_NAME.tar.xz"
 cp -r "$RUST_DEV_NAME/rust-dev/lib" "$LLVM_DIR/lib"
 cp -r "$RUST_DEV_NAME/rust-dev/include" "$LLVM_DIR/include"
+
+
+if [[ -z "${DOWNLOAD_SOURCE:-}" ]]; then
+    echo "Exiting after downloading ci-llvm and rust bootstrap toolchain. Use --download-source to re-download Rust source code"
+    exit
+fi
 
 cd "$SCRATCH_DIR"
 HTTPS_PROXY=fwdproxy:8080 git clone https://github.com/rust-lang/rust.git --branch $VERSION

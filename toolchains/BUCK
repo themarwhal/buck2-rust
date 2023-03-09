@@ -116,11 +116,4 @@ compiler_artifacts(
     rustc = ":stage1_rustc",
     visibility = ["PUBLIC"],
 )
-
-compiler_and_stdlibs(
-    name = "stage2",
-    rustc_dir = ":stage1_compiler_artifacts",
-    stdlibs = ["root//library:stage2_std", "root//library:stage2_proc_macro"],
-    visibility = ["PUBLIC"],
-)
 ### Artifacts
