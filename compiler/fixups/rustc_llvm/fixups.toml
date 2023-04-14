@@ -1,4 +1,4 @@
-rustc_flags = ["--cfg", 'llvm_component="x86"'] #TODO: This should be platform dependent
+rustc_flags = ["--cfg", 'llvm_component="x86"'] #TODO(themarwhal): This should be platform dependent
 extra_deps = [":cc-1.0.79"]
 
 [[buildscript]]

@@ -5,7 +5,7 @@ prebuilt_cxx_library(
     shared_lib = "lib/libLLVM-15-rust-1.67.1-stable.so",
     exported_linker_flags = [
         "-lLLVM-15-rust-1.67.1-stable",
-        # TODO: fix this
+        # TODO(themarwhal): fix this
         "-Lcompiler/ci-llvm/lib"
     ],
     header_dirs = ["include"],
