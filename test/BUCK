@@ -2,9 +2,10 @@ rust_binary(
     name = "hello_world",
     srcs = ["hello_world.rs"],
     rustc_flags = [
-        # TODO: Fix these
+        # TODO(themarwhal): Fix this, unsure why this is needed
         "-Cdefault-linker-libraries=y",
-        "-Clink-args=-ldl",
+        # TODO(themarwhal): Not sure why this isn't added here:
+        # https://github.com/rust-lang/rust/blob/master/library/std/src/sys/unix/mod.rs#L401
         "-Clink-args=-lpthread",
     ],
 )
