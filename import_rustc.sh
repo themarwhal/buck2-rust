@@ -38,7 +38,7 @@ COMPILER_DIR=$THIS_DIR/compiler
 
 cd "$SCRATCH_DIR"
 # There are some things that need to be downloaded (bootstrap compiler, ci-llvm artifacts)
-# TODO: Download these with http_archive
+# TODO(themarwhal): Download these with http_archive
 TOOLCHAINS_DOWNLOADS="$THIS_DIR/toolchains/downloads"
 rm -rf "$TOOLCHAINS_DOWNLOADS"
 mkdir -p "$TOOLCHAINS_DOWNLOADS"
@@ -86,7 +86,7 @@ rm -rf "$COMPILER_DIR/src"
 
 # Copy sources.
 cp -r "$RUST_SRC/compiler" "$COMPILER_DIR/src"
-# TODO: These might just be workarounds
+# TODO(themarwhal): These might just be workarounds
 # Regenerate source files in rustc_baked_icu_data as they are somehow outdated
 # https://github.com/rust-lang/rust/pull/107673
 echo "Regenerate compiler/src/rustc_baked_icu_data with updated icu_datagen"
@@ -97,7 +97,7 @@ HTTPS_PROXY=fwdproxy:8080 icu4x-datagen -W --pretty --fingerprint --use-separate
 
 cd "$COMPILER_DIR"
 echo "Remove 'crate-type = [\"dylib\"]' so that reindeer works"
-# TODO: I am not sure if this is the right fix for this. But reindder seems to packages the have crate-type=["dylib"]
+# TODO(themarwhal): Reindeer seems to ignore if crate-type=["dylib"]
 sed -i 's/crate-type/\#crate-type/g' src/rustc_driver/Cargo.toml
 sed -i 's/crate-type/\#crate-type/g' src/rustc_codegen_cranelift/Cargo.toml
 sed -i 's/crate-type/\#crate-type/g' src/rustc_codegen_gcc/Cargo.toml

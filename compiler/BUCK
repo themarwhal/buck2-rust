@@ -3946,14 +3946,6 @@ rust_compiler_library(
     visibility = [],
 )
 
-third_party_rust_cxx_library(
-    name = "psm-0.1.21-psm_s-linux-aarch64",
-    srcs = ["vendor/psm-0.1.21/src/arch/aarch_aapcs64.s"],
-    headers = ["vendor/psm-0.1.21/src/arch/psm.h"],
-    compiler_flags = ["-xassembler-with-cpp"],
-    preferred_linkage = "static",
-    visibility = [],
-)
 
 third_party_rust_cxx_library(
     name = "psm-0.1.21-psm_s-linux-x86_64",
@@ -12167,6 +12159,7 @@ rust_compiler_library(
 third_party_rust_prebuilt_cxx_library(
     name = "windows_x86_64_msvc-0.42.1-windows.lib-windows.lib",
     static_lib = "vendor/windows_x86_64_msvc-0.42.1/lib/windows.lib",
+    #compatible_with = ["ovr_config//os/constraints:windows"],
     visibility = [],
 )
 

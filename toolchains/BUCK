@@ -26,7 +26,7 @@ system_python_bootstrap_toolchain(
 toolchain_alias(
     name = "rust",
     actual = select({
-        "DEFAULT": ":stage0_rust_toolchain",
+        "DEFAULT": ":stage2_rust_toolchain",
         "bootstrap//:stage0": ":stage0_rust_toolchain",
         "bootstrap//:stage1": ":stage1_rust_toolchain",
         "bootstrap//:stage2": ":stage2_rust_toolchain",
@@ -65,6 +65,7 @@ command_alias(
 )
 
 # Bootstrap compiler used to build stage0 std, stage0 compiler artifacts
+# TODO(themarwhal): This only makes sense for stage0
 bootstrap_compiler(
     name = "bootstrap_compiler",
     rustc_tar = "downloads/bootstrap_rustc.tar.xz",
