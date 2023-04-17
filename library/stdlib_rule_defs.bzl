@@ -77,8 +77,6 @@ def stdlib_rust_library(name, **kwargs):
     # See https://github.com/rust-lang/rust/blob/master/src/bootstrap/builder.rs#L1654
     # For running build scripts, we need a full compiler. So always use the stage0 one
     if lazy.is_any(lambda use_bootstrap: use_bootstrap in name, _USE_BOOTSTRAP_COMPILER):
-        print("Using stage0 compiler for", name)
-
         # HACKY, what we want is a functional rust_bootstrap_library
         env["USE_THIS_RUSTC_DIR"] = _BOOTSTRAP_COMPILER
     else:
@@ -91,7 +89,6 @@ def stdlib_rust_library(name, **kwargs):
 
         if lazy.is_any(lambda needs_core_name: name.startswith(needs_core_name), _TARGETS_THAT_NEED_ADDITIONAL_DEPS):
             # Would be nice to move this to reindeer, but we need named_deps
-            print("Adding extra deps=core,alloc,compiler_builtins for", name)
             named_deps.update(_ADDITIONAL_DEPS)
 
     kwargs["rustc_flags"] = rustc_flags
