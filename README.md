@@ -6,7 +6,7 @@
 
 - Buck2 for building: <https://github.com/facebookincubator/buck2>
   - <https://buck2.build/docs/getting_started/>
-- `clang++` an `python` as this build assumes those are available on the path
+- `clang++` and `python`, as this build assumes those are available on the path
 - Reindeer for generating build files: <https://github.com/facebookincubator/reindeer>
   - Only needed if you wish to make changes to the generated build files
 
@@ -29,9 +29,9 @@
 - The actual bootstrapping follows what is layed out in the rustc doc: <https://rustc-dev-guide.rust-lang.org/building/bootstrapping.html#stages-of-bootstrapping>
 - Roughly we take these steps:
   1. `toolchains//:stage0_rust_toolchain` is constructed with the downloaded bootstrap compiler
-  1. configure the rust toolchain to use `toolchains//:stage0_rust_toolchain` for the stage0 platform, defined in `bootstrap/platform/BUCK`
-  1. with the stage0 platform, build libraries under `library/src`, which contains the standard library and its dependencies
-  1. plug in the stage0 standard libraries and build `compiler/src`, which contains rustc and its dependencies
-  1. take the stage0 rustc and construct `toolchains//:stage0_compiler_artifacts` which is a directory tree that mimics what a normal toolchain looks like. The important thing here is that `bin/rustc` exists. This will then plug into the toolchain used for stage1. This is used for the stage1 platform.
-  1. build the standard libs again on stage1
-  1. we now have a freshly built compiler with its standard libraries that can run `//test:hello_world_with_bootstrapped_compiler`
+  2. configure the rust toolchain to use `toolchains//:stage0_rust_toolchain` for the stage0 platform, defined in `bootstrap/platform/BUCK`
+  3. with the stage0 platform, build libraries under `library/src`, which contains the standard library and its dependencies
+  4. plug in the stage0 standard libraries and build `compiler/src`, which contains rustc and its dependencies
+  5. take the stage0 rustc and construct `toolchains//:stage0_compiler_artifacts` which is a directory tree that mimics what a normal toolchain looks like. The important thing here is that `bin/rustc` exists. This will then plug into the toolchain used for stage1. This is used for the stage1 platform.
+  6. build the standard libs again on stage1
+  7. we now have a freshly built compiler with its standard libraries that can run `//test:hello_world_with_bootstrapped_compiler`
